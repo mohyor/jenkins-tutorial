@@ -5,7 +5,7 @@ pipeline {
     maven 'maven3'
   }
   stages {
-    stage("Cleanp Workspace"){
+    stage("Cleanup Workspace"){
       steps {
         cleanWs()
       }
@@ -25,6 +25,16 @@ pipeline {
     stage("Test Application"){
       steps {
         sh "mvn test"
+      }
+    }
+
+    stage("SonarQube Analysis"){
+      steps {
+        script {
+         withSonarQubeEnv(credentialsId: 'jenkins-master') {
+           sh "mvn sonar:sonar"
+         }
+        }
       }
     }
   }
