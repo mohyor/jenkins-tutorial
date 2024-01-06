@@ -37,5 +37,11 @@ pipeline {
         }
       }
     }
+
+    stage("Quality Gate"){
+      steps {
+        waitForQualityGate abortPipeline: false, credentialsId: 'jenkins-master'
+      }
+    }
   }
 }
